@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+</head>
+<body style="margin: 20px 20px 20px 20px">
+
+<h1>* 글 수정 *</h1>
+
+<form action="/board/updateok" name="frm" method="post">{% csrf_token %}
+<input type="hidden" name="id" value="{{data_one.id}}">
+<table class="table" style="width: 90%">
+	<tr>
+		<td>작성자</td>
+		<td><input type="text" name="name" value="{{data_one.name}}"></td>
+	</tr>
+	<tr>
+		<td>비밀번호</td>  <!-- 비밀번호를 수정하는 것이 아니라 비밀번호가 맞는지 확인하는 것 -->
+		<td><input type="text" name="up_passwd"></td>
+	</tr>
+	<tr>
+		<td>이메일</td>
+		<td><input type="text" name="mail" value="{{data_one.mail}}"></td>
+	</tr>
+	<tr>
+		<td>글제목</td>
+		<td><input type="text" name="title" value="{{data_one.title}}"></td>
+	</tr>
+	<tr>
+		<td>글내용</td>
+		<td><textarea rows="5" style="width: 100%" name="cont">{{data_one.cont}}</textarea></td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<input type="submit" value="수정">&nbsp;
+			<input type="button" value="이전" onclick="history.back()">
+		</td>
+	</tr>
+
+</table>
+</form>
+
+</body>
+</html>

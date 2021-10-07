@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+</head>
+<body style="margin: 20px 20px 20px 20px">
+
+<h2>* 댓글 쓰기 *</h2>
+
+<form action="/board/replyok" method="post">{% csrf_token %}
+<input type="hidden" name="id" value="{{data_one.id}}"/>
+<input type="hidden" name="gnum" value="{{data_one.gnum}}"/>
+<input type="hidden" name="onum" value="{{data_one.onum}}"/>
+<input type="hidden" name="nested" value="{{data_one.nested}}"/>
+
+<table class="table" style="width: 90%">
+	<tr>
+		<td>작성자</td>
+		<td><input type="text" name="name"></td>
+	</tr>
+	<tr>
+		<td>비밀번호</td>
+		<td><input type="text" name="passwd"></td>
+	</tr>
+	<tr>
+		<td>이메일</td>
+		<td><input type="text" name="mail"></td>
+	</tr>
+	<tr>
+		<td>글제목</td>
+		<td><input type="text" name="title" style="width: 90%" value="[RE:] {{data_one.title}} "></td>
+	</tr>
+	<tr>
+		<td>글내용</td>
+		<td><textarea rows="5" style="width: 90%" name="cont"></textarea></td>
+	</tr>
+	<tr>
+		<td colspan="2" style="text-align: center;">
+			<input type="submit" value="확인">&nbsp;
+			<input type="button" value="이전" onclick="history.back()">
+		</td>
+	</tr>
+</table>
+</form>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>상세보기</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+</head>
+<body style="margin: 20px 20px 20px 20px">
+
+<h2>* 글 내용 보기 *</h2>
+<table style="width:90%; text-align: right;" class="table">
+	<tr>
+		<td>
+		<a href="/board/reply?id={{data_one.id}}">댓글</a>
+		<a href="/board/update?id={{data_one.id}}">수정</a>  <!-- page는 시간관계상 생략 -->
+		<a href="/board/delete?id={{data_one.id}}">삭제</a>
+		<a href="/board/list?id={{page}}">목록</a>
+		</td>
+	</tr>
+</table>
+<table style="width:90%" class="table">
+	<tr>
+		<td>
+		작성자 : <a href="mailto:{{data_one.mail}}">{{data_one.name}} (ip:{{data_one.bip}})</a>
+		</td>
+		<td>작성일 : {{data_one.bdate}}</td>
+		<td>조회수 : {{data_one.readcnt}}</td>
+	</tr>
+	<tr>
+		<td colspan="3">제목 : {{data_one.title}}</td>
+	</tr>
+	<tr>
+		<td colspan="3">
+		<textarea rows="8", style="width: 100%" readonly="readonly">{{data_one.cont}}</textarea>
+		</td>
+	</tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+</head>
+<body style="margin: 20px 20px 20px 20px">
+
+<a href="/board/insert">글쓰기</a>
+
+<table style="width: 90%" class="table">
+	<tr>
+		<th>번호</th><th>제 목</th><th>작성자</th><th>작성일</th><th>조회수</th>
+	</tr>
+	{% if data %}
+	{% for d in data %}
+	<tr>
+		<td>{{d.id}}</td>  <!-- 페이지수도 가져가는 이유는 다시 돌아올때 해당 글이 있는 화면을 보여주기 위해 -->
+		<td>
+		{% with ''|center:d.nested as range %}  <!-- nested 공백 주기 -->
+			{% for _ in range %}&emsp;{% endfor %}
+		{% endwith %}
+			<a href="/board/content?id={{d.id}}&page={{data.number}}">{{d.title}}</a>
+		</td>
+		<td>{{d.name}}</td>
+		<td>{{d.bdate.year}}.{{d.bdate.month}}.{{d.bdate.day}}</td>
+		<td>{{d.readcnt}}</td>
+	</tr>
+	{% endfor %}
+	{% else %}
+	<tr>
+		<td colspan="5" style="text-align: center;">작성된 글이 없어요</td>
+	</tr>
+	{% endif %}
+	<tr>
+		<td colspan="5" style="text-align: center;">
+			<div>
+			{% if data.has_previous %}
+				<a href="/board/list?page={{data.previous_page_number}}">&laquo;이전</a>&emsp;
+			{% endif %}
+			{% if data.has_next %}
+				<a href="/board/list?page={{data.next_page_number}}">다음&raquo;</a>
+			{% endif %}
+			&emsp;(페이지 {{data.number}} / {{data.paginator.num_pages}})
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="5" style="text-align: center">
+		<br>
+		<form action="/board/search" method="post">{% csrf_token %}
+		검색: &nbsp;
+			<select name="s_type">
+				<option value="title" selected="selected">글제목</option>
+				<option value="name">작성자</option>
+			</select>&nbsp;
+			<input type="text" name="s_value">
+			<input type="submit" value="검색">
+		</form>
+	</tr>	
+</table>
+
+</body>
+</html>
