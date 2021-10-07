@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+<script type="text/javascript">
+let xhr;
+let gjson = document.getElementById("#gjson").value
+window.onload = function(){
+	xhr = new XMLHttpRequest();
+
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState === XMLHttpRequest.DONE){  
+			if(xhr.status === 200){  
+				process2();
+			};
+		};
+	};
+	url = "goajax2";
+	xhr.open("GET", url, true);
+	xhr.send();
+};
+
+
+
+</script>
+
+</body>
+</html>
+
+<input id="gjson" value="">

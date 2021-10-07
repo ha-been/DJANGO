@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src=" http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	//jQuery 방법
+	$("#btn1").click(function(){
+		let msg = $("#txtMsg").val()
+		$("#showData1").empty()
+		
+		$.ajax({
+			url:"startajax",  //django의 urls 로 이동 
+			type:"get",
+			data:{"msg":msg},  //"msg=" + msg,
+			dataTyle:"json",
+			success:function(data){  
+				//alert(data);
+				//key, value를 모두 볼때
+				let str = "";
+				for(let k in data){
+					str = k + "&nbsp;" + data[k];
+				};
+				
+				//value만 출력
+				str += "<br>" + data["key"]
+				$("#showData1").html(str);
+				
+			},
+			error:function(){
+				$("#showData1").text("에러")
+			}
+		});
+	});
+	
+	
+	$("#btn2").click(function(){
+		let msg = $("#txtMsg").val()
+		$("#showData2").empty()
+		
+		$.ajax({
+			url:"goajax",  //django의 urls 요청
+			type:"get",
+			data:{"msg":msg},  
+			dataTyle:"json",
+			success:function(data){  
+				//alert(data);
+				let str ="";
+				$.each(data, function(ind, entry){
+					str += entry["irum"] + ', ' + entry["nai"] + "<br>";
+				});
+				$("#showData2").html(str);
+
+			},
+			error:function(){
+				$("#showData2").text("에러")
+			}
+		});
+	});
+});
+
+</script>
+
+
+<script type="text/javascript">
+let xhr;
+window.onload = function(){
+	//legacy(전통적인) javascript 방법
+	document.querySelector("#btn3").addEventListener("click", ()=>{  //화살표함수 이름없는 함수
+		//alert("a");
+		xhr = new XMLHttpRequest();
+		//console.log(xhr);
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState === XMLHttpRequest.DONE){  //통신상태가 양호하다는 뜻
+				if(xhr.status === 200){  // (views의 HttpResponse임) 응답코드가 200이면 양호하다는 뜻
+					console.log(xhr.response);
+					process1();
+				};
+			};
+		};
+		url = "startajax2?msg=" + document.querySelector("#txtMsg2").value;
+		//alert(url);
+		xhr.open("GET", url, true);
+		xhr.send()  //http 요청
+		
+	});
+	
+	
+	//javascript ECMA6 방법
+	document.querySelector("#btn4").onclick = function(){
+		//alert("b");
+		xhr = new XMLHttpRequest();
+
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState === XMLHttpRequest.DONE){  
+				if(xhr.status === 200){  
+					process2();
+				};
+			};
+		};
+		url = "goajax2";
+		xhr.open("GET", url, true);
+		xhr.send();
+		
+	};
+	
+	//javascript ECMA6 fetch 사용 방법
+	document.querySelector("#btn5").onclick = function(){
+		const url = "chulbalajax";
+		fetch(url).then(res =>{  //js fetch 사용
+			if(res.status === 200){
+				return res.json()  //json을 반환
+			}else{
+				console.error(`HTTP 에러! status:$(res.status)`)  //백틱
+			}
+		})
+		.then(jsonData =>{  //promise 객체 받음
+			process3(jsonData);
+		})
+		.catch(err =>{
+			console.error(err);
+		})
+		
+	}
+	
+	
+};
+
+
+function process1(){
+	//alert(xhr.responseText + "\n" + typeof(xhr.responseText));
+	let parseData = JSON.parse(xhr.responseText);  //문자열 -> JSON 객체
+	document.querySelector("#showData3").innerText = parseData.key;
+};
+
+function process2(){
+	let parseData2 = JSON.parse(xhr.responseText);
+	//alert(parseData2)
+	let str = "";
+	for(let i=0; i < parseData2.length; i++){
+		str += parseData2[i].irum + " " + parseData2[i].nai + "<br>";
+	};
+	
+	document.querySelector("#showData4").innerHTML = str;
+};
+
+function process3(jsonData){
+	//alert(jsonData);
+	let str = "";
+	for(let i=0; i < jsonData.length; i++){
+		str += jsonData[i].irum + " " + jsonData[i].nai + "<br>";
+	};
+	document.querySelector("#showData5").innerHTML = str;
+};
+
+
+
+</script>
+
+</head>
+<body>
+
+abc 화면<br><br>
+
+늘상 하는 작업 : <br>
+<textarea rows="5" cols="50"></textarea>
+<br>
+
+자료입력 : <input type="text" id="txtMsg" value="대한민국"><br><br>
+<button id="btn1">Ajax test1 : jQuery</button><br>
+<div id="showData1"></div>
+<hr>
+
+<button id="btn2">Ajax test2 : jQuery</button><br>
+<div id="showData2"></div>
+<hr style="border: solid 3px #ffabcd;">
+<br><br>
+
+자료입력 : <input type="text" id="txtMsg2" value="강남사거리"><br><br>
+<button id="btn3">Ajax test3 : javascript</button><br>
+<div id="showData3"></div>
+<hr>
+
+<button id="btn4">Ajax test4 : javascript</button><br>
+<div id="showData4"></div>
+<br>
+<hr style="border: solid 3px #ffabcd;">
+
+<button id="btn5">Ajax test5 : javascript:ECMA6</button><br>
+<div id="showData5"></div>
+
+
+</body>
+</html>
+
+
+
