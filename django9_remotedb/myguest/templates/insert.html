@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+window.onload = function(){
+	document.getElementById("btnOk").onclick = confirmFunc;
+	document.getElementById("btnShow").onclick = function(){
+		//history.back();
+		location.href = "/guest/";
+	};
+};
+
+function confirmFunc(){
+	//alert('a');
+	if(frm.title.value===""){
+		alert('글제목을 입력하세요')
+		frm.title.focus();
+		return;
+	};
+	
+	if(frm.content.value===""){
+		alert('글내용을 입력하세요')
+		frm.title.fucus();
+		return;
+	};
+	
+	frm.submit();
+
+};
+
+</script>
+
+</head>
+<body>
+
+<h3>** 방명록 작성 **</h3>
+
+<form action="/guest/insertok" method="post" name="frm" onsubmit="return false">{% csrf_token %}
+<table>
+	<tr>
+		<td>제목</td>
+		<td>
+			<input type="text" name="title" size="48">
+		</td>
+	</tr>
+	<tr>
+		<td>내용</td>
+		<td>
+			<textarea rows="5" cols="50" name="content"></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" style="text-align: center;">
+			<input type="button" id="btnOk" value="등록하기">
+			<input type="button" id="btnShow" value="목록보기">
+		</td>
+	</tr>
+
+</table>
+</form>
+
+</body>
+</html>
