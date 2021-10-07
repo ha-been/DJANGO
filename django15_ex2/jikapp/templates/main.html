@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src=" http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+let xhr;
+window.onload = function(){
+	//legacy javascript
+	document.querySelector("#btn1").addEventListener("click", ()=>{  
+		xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState === XMLHttpRequest.DONE){  
+				if(xhr.status === 200){  
+					resultFunc1();
+				};
+			};
+		};
+		url = "list?jik=" + document.querySelector("#txtJik").value;
+		xhr.open("GET", url, true);
+		xhr.send()  
+		
+	});
+	
+	//javascript ECMA6 fetch
+	document.querySelector("#btn2").onclick = function(){
+		const url = "list2?jik=" + document.querySelector("#txtJik").value;
+		fetch(url).then(res =>{  
+			if(res.status === 200){
+				return res.json()  
+			}else{
+				console.error(`HTTP 에러! status:$(res.status)`) 
+			}
+		})
+		.then(resultData2 =>{  
+			resultFunc2(resultData2);
+		})
+		.catch(err =>{
+			console.error(err);
+		})
+		
+	};
+	
+};
+
+
+function resultFunc1(){
+	let resultData = JSON.parse(xhr.responseText);
+	let count = 0;
+	let str = "<table border='1'><tr><th>직원번호</th><th>직원명</th><th>부서명</th></tr>";
+	for(let i=0; i < resultData.length; i++){
+		str += "<td>" + resultData[i].jikwon_no + "</td>";
+		str += "<td>" + resultData[i].jikwon_name + "</td>";
+		str += "<td>" + resultData[i].buser_name + "</td>";
+		str += "</tr>";
+		count += 1;
+	};
+	str += "</table>";
+	str += "건수 : " + count;
+	
+	document.querySelector("#showList").innerHTML = str;
+};
+
+
+function resultFunc2(resultData2){
+	let count = 0;
+	let str = "<table border='1'><tr><th>직원번호</th><th>직원명</th><th>부서명</th></tr>";
+	for(let i=0; i < resultData2.length; i++){
+		str += "<td>" + resultData2[i].jikwon_no + "</td>";
+		str += "<td>" + resultData2[i].jikwon_name + "</td>";
+		str += "<td>" + resultData2[i].buser_num + "</td>";
+		str += "</tr>";
+		count += 1;
+	};
+	str += "</table>";
+	str += "건수 : " + count;
+	
+	document.querySelector("#showList").innerHTML = str;
+	
+};
+
+
+</script>
+
+</head>
+<body><br>
+
+<h3>직원보기</h3>
+
+직원정보 입력 &emsp;
+직급: <input type="text" style="width: 15%" id="txtJik">
+<input type="submit" value="결과보기1" id="btn1">
+<input type="submit" value="결과보기2" id="btn2">
+<br><br>
+
+<div id="showList"></div>
+
+
+
+
+
+</body>
+</html>
