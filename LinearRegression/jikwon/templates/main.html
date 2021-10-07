@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+function predict(){
+	let send_data = {}
+	let year = document.getElementById("year").value
+	send_data['year'] = year
+	//alert(send_data);
+
+	$(".predictPay").empty(); 
+	$(".payList").empty(); 
+	$.ajax({
+		url:"predict",     
+		type:"post", 
+		data:send_data,
+		dataType:"json",
+		success:function(data){  
+			$(".predictPay").append(`근무년수 <b>${year}년</b>에 대한 예상연봉은 <b>${data.new_pred}</b> 입니다.`); 
+			$(".payList").append(data.pay_jik); 
+		},
+		error:function(){
+			alert('근무년수를 정확히 입력해주세요. \n - 숫자만 입력 가능 \n - ex) 12년 -> 12');
+		}
+	});
+}
+</script>
+<style>
+div {
+	text-align: center;
+	margin: 40px;
+}
+
+div.predictPay {
+	font-size: 20px;
+}
+
+table {
+	margin: auto;
+	width: 130px;
+    border-collapse: collapse;
+}
+</style>
+</head>
+<body>
+
+<div>
+<h3> 📈 근무년수에 대한 예상 연봉 구하기 </h3>
+근무년수를 입력하세요 : <input type="text" id="year"> 년<br><br>
+<button onclick="predict()">연봉확인</button>
+</div>
+
+<div class="predictPay"></div>
+<div><h3> 💸 직급별 연봉 평균 💸 </h3></div>
+<div class="payList">
+
+</div>
+
+</body>
+</html>
