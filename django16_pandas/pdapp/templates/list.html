@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+자료출력 <br>
+
+{% if datas %}
+{{datas|safe}}
+{% endif %}
+
+<hr><br>
+
+부서별 연봉 합 : <br>
+총무부 : {{buser_group.sum.10}}<br>
+영업부 : {{buser_group.sum.20}}<br>
+전산부 : {{buser_group.sum.30}}<br>
+관리부 : {{buser_group.sum.40}}<br>
+
+<br>
+
+부서별 연봉 평균 : <br>
+총무부 : {{buser_group.avg.10}}<br>
+영업부 : {{buser_group.avg.20}}<br>
+전산부 : {{buser_group.avg.30}}<br>
+관리부 : {{buser_group.avg.40}}<br>
+
+<br>
+
+<img src="static/images/test.png">
+
+
+</body>
+</html>
