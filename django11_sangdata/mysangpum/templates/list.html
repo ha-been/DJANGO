@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+function func(arg){
+	let result = confirm("정말 삭제하시겠습니까?");
+	if(result){
+		document.getElementById(arg).submit();
+	}
+}
+</script>
+</head>
+<body>
+
+* 상품 정보 * <br>
+
+<div style="width: 80%; text-align: right;">
+	<a href="/sangpum/insert">상품 추가</a>
+</div>
+
+<table style="width: 80%">
+	<tr style="background-color: #ffaabb">
+		<th>코드</th><th>상품명</th><th>수량</th><th>단가</th><th>기타</th>
+	</tr>
+	{% if sangpums %}
+	{% for s in sangpums %}
+	<tr>
+		<td>{{s.code}}</td>
+		<td>{{s.sang}}</td>
+		<td>{{s.su}}</td>
+		<td>{{s.dan}}</td>
+		<td style="text-align: center">
+			<a href="/sangpum/update?code={{s.code}}">수정</a> / 
+			<!-- <a href="/sangpum/delete?code={{s.code}}">삭제</a> -->
+			<form action="/sangpum/delete" id="{{s.code}}" method="get" style="display: inline;">{% csrf_token %}
+				<input type="hidden" name="code" value={{s.code}}>
+				<a href="javascript:void(0); onclick=func({{s.code}})">삭제</a>
+				<!-- a 태그의 페이지변환/이동 기능 무효화하기 -->
+			</form>
+		</td>
+	</tr>
+	{% endfor %}
+	{% else %}
+	<tr>
+		<td colspan="5">자료가 없습니다.</td>
+	</tr>
+	{% endif %}
+</table>
+
+</body>
+</html>

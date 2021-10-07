@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<h2>**상품자료 수정**</h2>
+<form action="/sangpum/updateok" method="post" name="frm">{% csrf_token %}
+<table style="width: 80%">
+	<tr>
+		<td>코드</td> 
+		<td><!-- 코드는 고정이므로 수정하지 못하도록 함 -->
+			<input type="hidden" name="code" value="{{sang_one.code}}">
+			{{sang_one.code}}
+			<!-- type="hidden"으로 설정해 숨기고 {{sang_one.code}} 텍스트만 보여준다. -->
+		</td>
+	</tr>
+	<tr>
+		<td>품명</td>
+		<td><input type="text" name="sang" value="{{sang_one.sang}}"></td>
+	</tr>
+	<tr>
+		<td>수량</td>
+		<td><input type="number" name="su" value="{{sang_one.su}}"></td>
+	</tr>
+	<tr>
+		<td>단가</td>
+		<td><input type="number" name="dan" value="{{sang_one.dan}}"></td>
+	</tr>
+	<tr>
+		<td colspan="2"><br>
+			<input type="submit" value="수정하기"> <!-- 오류검색생략 -->
+			<input type="button" value="이전화면" onclick="history.back()">
+		</td>
+	</tr>
+
+</table>
+
+</form>
+
+</body>
+</html>
